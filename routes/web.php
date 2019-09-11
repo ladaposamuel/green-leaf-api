@@ -11,7 +11,6 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return response()->json(['status' => 'success', 'data' => ['message' => 'Welcome to Grean leaf Article API V1 endpoint']]);
-});
-
+$router->get('/', [
+    'as' => 'index', 'uses' => 'WelcomeController@index'
+]);
