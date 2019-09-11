@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - 7.2
+
+sudo: false
+
+install:
+  - composer install
+
+script:
+  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then phpunit --testdox; fi

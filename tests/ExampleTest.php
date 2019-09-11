@@ -13,9 +13,9 @@ class ExampleTest extends TestCase
     public function testExample()
     {
         $this->get('/');
-
-        $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
+        $this->seeStatusCode(200);
+        $this->seeJsonEquals(
+            ['status' => 'success', 'data' => ['message' => 'Welcome to Grean leaf Article API V1 endpoint']]
         );
     }
 }
