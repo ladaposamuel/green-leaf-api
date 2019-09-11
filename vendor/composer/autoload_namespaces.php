@@ -7,5 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src'),
+    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
+    'Mpociot' => array($vendorDir . '/mpociot/reflection-docblock/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
 );
