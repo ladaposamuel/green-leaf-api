@@ -1,0 +1,63 @@
+version: '3'
+services:
+
+  #PHP Service
+  greanleaf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: greanleaf/php
+    container_name: greanleaf
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: greanleaf
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - greanleaf-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - greanleaf-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - greanleaf-network
+
+#Docker Networks
+networks:
+  greanleaf-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
