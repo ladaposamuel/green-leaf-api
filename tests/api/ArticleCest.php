@@ -244,4 +244,12 @@ class ArticleCest
       $I->seeResponseCodeIs(200);
       $I->seeResponseContainsJson(['status' => 'success']);
    }
+
+   public function testArticleRating(ApiTester $I)
+   {
+      $I->wantToTest('User should be able to rate an article');
+      $I->sendPOST('/articles/1/rating', ['helpful' => 'yes', 'message' => 'i got it right']);
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
+   }
 }

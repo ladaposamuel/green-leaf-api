@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Article;
+use App\Rating;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,8 @@ class ArticleController extends Controller
 
 
    /**
+    *
+    *
     * New Article
     *
     * @bodyParam title title required The title of the article.
@@ -37,7 +40,7 @@ class ArticleController extends Controller
     *  "status" : "error",
     *  "data" : "Validation errors"
     * }
-    *
+    * @authenticated
     */
    public function new(Request $request)
    {
@@ -111,6 +114,8 @@ class ArticleController extends Controller
 
 
    /**
+    *
+    *
     * Delete an Article
     *
     *
@@ -129,6 +134,7 @@ class ArticleController extends Controller
     *  "error" : "You dont have access to delete this article"
     * }
     *
+    * @authenticated
     */
    public function delete($id)
    {
@@ -147,6 +153,7 @@ class ArticleController extends Controller
 
 
    /**
+    *
     *
     * Update Article
     * @queryParam ID required The ID of the article. Example: 1
@@ -168,6 +175,7 @@ class ArticleController extends Controller
     *  "data" : "Article ID not specified or not found"
     * }
     *
+    * @authenticated
     */
    public function update(Request $request, $id)
    {
@@ -220,5 +228,52 @@ class ArticleController extends Controller
          return respond('success', $articles);
       }
       return respond('error', 'You need to specify a search query', 422);
+   }
+
+
+   /**
+    *
+    * Rate Article
+    *
+    * @queryParam ID required The search query of the article. Example: hello
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : "Ratings posted successfully"
+    * }
+    *
+    * @response 404 {
+    *  "status" : "error",
+    *  "data" : "Article ID not specified or not found"
+    * }
+    *
+    *
+    */
+   public function rate(Request $request, $id)
+   {
+
+      $validator = \Validator::make($request->all(), [
+         'message' => 'max:255',
+         'helpful' => 'required',
+
+      ]);
+
+      if ($validator->fails()) {
+         return respond('error', $validator->errors(), 422);
+      }
+
+      try {
+         Article::find($id);
+         $saveRating = new Rating();
+         $saveRating->helpful = $request->input('helpful');
+         $saveRating->message = $request->input('message');
+         $saveRating->article_id = $id;
+         $saveRating->save();
+         return respond('success', 'Ratings posted successfully');
+      } catch (\Exception $e) {
+         dd($e);
+         return respond('error', 'Article ID not specified or not found', 404);
+      }
+
    }
 }
