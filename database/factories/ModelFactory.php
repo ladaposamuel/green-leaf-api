@@ -19,3 +19,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
    ];
 });
+
+$factory->define(App\Article::class, function (Faker\Generator $faker) {
+   return [
+      'title' => $faker->sentence,
+      'message' => $faker->paragraph,
+      'user_id' => function () {
+         return factory(App\User::class)->create()->id;
+      },
+   ];
+});

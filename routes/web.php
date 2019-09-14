@@ -16,11 +16,17 @@ $router->get('/', [
 ]);
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
-   $router->group(['prefix' => 'auth'], function () use ($router) {
 
+   $router->group(['prefix' => 'articles', 'middleware' => 'auth:api'], function () use ($router) {
+      $router->post('/', 'Users\ArticleController@new');
+
+   });
+
+   $router->group(['prefix' => 'auth'], function () use ($router) {
 
       $router->post('login', 'Users\AuthController@login');
       $router->post('register', 'Users\AuthController@register');
+
 
    });
 });
