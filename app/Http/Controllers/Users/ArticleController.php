@@ -18,7 +18,6 @@ class ArticleController extends Controller
 
    public function __construct()
    {
-      $this->middleware('jwt.auth');
       $this->user = Auth::user();
    }
 
@@ -34,7 +33,7 @@ class ArticleController extends Controller
     *  "data" : "Article Posted successfully"
     * }
     *
-    *  @response 422 {
+    * @response 422 {
     *  "status" : "error",
     *  "data" : "Validation errors"
     * }
@@ -62,5 +61,22 @@ class ArticleController extends Controller
       } else {
          return respond('error', 'An error occurred please try again', 400);
       }
+   }
+
+   /**
+    * List all Articles
+    *
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : []
+    * }
+    *
+    *
+    */
+   public function list()
+   {
+      $articles = Article::all();
+      return respond('success', $articles);
    }
 }
