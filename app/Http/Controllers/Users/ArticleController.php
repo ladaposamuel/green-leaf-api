@@ -79,4 +79,33 @@ class ArticleController extends Controller
       $articles = Article::all();
       return respond('success', $articles);
    }
+
+   /**
+    * Get an Article
+    *
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : {}
+    * }
+    *
+    * @response 404 {
+    *  "status" : "error",
+    *  "error" : "Article ID not found"
+    * }
+    *
+    */
+   public function view($id)
+   {
+      try {
+         $articles = [];
+         if ($id) {
+            $articles = Article::findOrFail($id);
+         }
+         return respond('success', $articles);
+      } catch (\Exception $e) {
+         return respond('error', 'Article ID not found', 404);
+      }
+
+   }
 }

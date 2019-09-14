@@ -37,8 +37,8 @@ $response = $client->post("http://localhost/api/v1/articles", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "title" => "reprehenderit",
-            "message" => "sed",
+            "title" => "aliquid",
+            "message" => "blanditiis",
         ],
 ]);
 $body = $response->getBody();
@@ -54,8 +54,8 @@ let headers = {
 }
 
 let body = {
-    "title": "reprehenderit",
-    "message": "sed"
+    "title": "aliquid",
+    "message": "blanditiis"
 }
 
 fetch(url, {
@@ -71,7 +71,18 @@ fetch(url, {
 > Example response (200):
 
 ```json
-null
+{
+    "status": "success",
+    "data": "Article Posted successfully"
+}
+```
+> Example response (422):
+
+```json
+{
+    "status": "error",
+    "data": "Validation errors"
+}
 ```
 
 ### HTTP Request
@@ -85,6 +96,111 @@ Parameter | Type | Status | Description
     message | string |  required  | The message of the article.
 
 <!-- END_f25ad88ad3ff8f48775c1cc0cc4255fa -->
+
+<!-- START_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+## List all Articles
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get("http://localhost/api/v1/articles", [
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": []
+}
+```
+> Example response (500):
+
+```json
+null
+```
+
+### HTTP Request
+`GET /api/v1/articles`
+
+
+<!-- END_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+
+<!-- START_82a5dbdb9d45bfefd05442a42aa9423c -->
+## Get an Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get("http://localhost/api/v1/articles/1", [
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles/1");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": {}
+}
+```
+> Example response (404):
+
+```json
+{
+    "status": "error",
+    "error": "Article ID not found"
+}
+```
+
+### HTTP Request
+`GET /api/v1/articles/{id}`
+
+
+<!-- END_82a5dbdb9d45bfefd05442a42aa9423c -->
 
 #Authentication Route
 
@@ -103,8 +219,8 @@ $response = $client->post("http://localhost/api/v1/auth/login", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "email" => "est",
-            "password" => "tenetur",
+            "email" => "quia",
+            "password" => "consequatur",
         ],
 ]);
 $body = $response->getBody();
@@ -120,8 +236,8 @@ let headers = {
 }
 
 let body = {
-    "email": "est",
-    "password": "tenetur"
+    "email": "quia",
+    "password": "consequatur"
 }
 
 fetch(url, {
@@ -171,9 +287,9 @@ $response = $client->post("http://localhost/api/v1/auth/register", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "name" => "odit",
-            "email" => "maiores",
-            "password" => "natus",
+            "name" => "in",
+            "email" => "officia",
+            "password" => "veniam",
         ],
 ]);
 $body = $response->getBody();
@@ -189,9 +305,9 @@ let headers = {
 }
 
 let body = {
-    "name": "odit",
-    "email": "maiores",
-    "password": "natus"
+    "name": "in",
+    "email": "officia",
+    "password": "veniam"
 }
 
 fetch(url, {
