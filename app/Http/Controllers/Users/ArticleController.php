@@ -108,4 +108,40 @@ class ArticleController extends Controller
       }
 
    }
+
+
+   /**
+    * Delete an Article
+    *
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : "Article Deleted successfully"
+    * }
+    *
+    * @response 404 {
+    *  "status" : "error",
+    *  "error" : "Article ID not specified or not found"
+    * }
+    *
+    * @response 422 {
+    *  "status" : "error",
+    *  "error" : "You dont have access to delete this article"
+    * }
+    *
+    */
+   public function delete($id)
+   {
+      try {
+         $article = Article::find($id);
+         if ((int)$article->user->id === Auth::id()) {
+            $article->delete();
+         } else {
+            return respond('error', 'You dont have access to delete this article', 422);
+         }
+         return respond('success', 'Article Deleted successfully');
+      } catch (\Exception $e) {
+         return respond('error', 'Article ID not specified or not found', 404);
+      }
+   }
 }
