@@ -20,6 +20,72 @@ Welcome to the generated API reference.
 
 <!-- END_INFO -->
 
+#Articles Route
+
+
+Auth route
+<!-- START_f25ad88ad3ff8f48775c1cc0cc4255fa -->
+## New Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post("http://localhost/api/v1/articles", [
+    'headers' => [
+            "Content-Type" => "application/json",
+        ],
+    'json' => [
+            "title" => "reprehenderit",
+            "message" => "sed",
+        ],
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles");
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "title": "reprehenderit",
+    "message": "sed"
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+null
+```
+
+### HTTP Request
+`POST /api/v1/articles`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    title | title |  required  | The title of the article.
+    message | string |  required  | The message of the article.
+
+<!-- END_f25ad88ad3ff8f48775c1cc0cc4255fa -->
+
 #Authentication Route
 
 
@@ -37,8 +103,8 @@ $response = $client->post("http://localhost/api/v1/auth/login", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "email" => "delectus",
-            "password" => "voluptatibus",
+            "email" => "est",
+            "password" => "tenetur",
         ],
 ]);
 $body = $response->getBody();
@@ -54,8 +120,8 @@ let headers = {
 }
 
 let body = {
-    "email": "delectus",
-    "password": "voluptatibus"
+    "email": "est",
+    "password": "tenetur"
 }
 
 fetch(url, {
@@ -105,9 +171,9 @@ $response = $client->post("http://localhost/api/v1/auth/register", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "name" => "vitae",
-            "email" => "illum",
-            "password" => "ex",
+            "name" => "odit",
+            "email" => "maiores",
+            "password" => "natus",
         ],
 ]);
 $body = $response->getBody();
@@ -123,9 +189,9 @@ let headers = {
 }
 
 let body = {
-    "name": "vitae",
-    "email": "illum",
-    "password": "ex"
+    "name": "odit",
+    "email": "maiores",
+    "password": "natus"
 }
 
 fetch(url, {

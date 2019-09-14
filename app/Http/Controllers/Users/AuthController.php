@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\User;
-use Firebase\JWT\JWT;
+use Tymon\JWTAuth\JWTAuth;
 use Illuminate\Http\Request;
-use Firebase\JWT\ExpiredException;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 
@@ -23,7 +22,7 @@ class AuthController extends Controller
     *
     * @var \Illuminate\Http\Request
     */
-   private $request;
+   protected $jwt;
 
    /**
     * Create a new controller instance.
@@ -31,10 +30,12 @@ class AuthController extends Controller
     * @param \Illuminate\Http\Request $request
     * @return void
     */
-   public function __construct(Request $request)
+
+   public function __construct(JWTAuth $jwt)
    {
-      $this->request = $request;
+      $this->jwt = $jwt;
    }
+
 
    /**
     * Login Route
@@ -48,30 +49,43 @@ class AuthController extends Controller
     * }
     *
     */
-   public function login()
+   public function login(Request $request)
    {
-      $this->validate($this->request, [
-         'email' => 'required|email',
+
+      $validator = \Validator::make($request->all(), [
+         'email' => 'required',
          'password' => 'required'
       ]);
-      // Find the user by email
-      $user = User::where('email', $this->request->input('email'))->first();
-      if (!$user) {
-         return respond('error', [
-            'error' => 'Email does not exist.'
-         ], 400);
+
+      if ($validator->fails()) {
+         return respond('error', $validator->errors(), 422);
       }
-      // Verify the password and generate the token
-      if (Hash::check($this->request->input('password'), $user->password)) {
-         return respond('success', [
-            'user' => $user,
-            'token' => $this->jwt($user)
-         ]);
+
+
+      try {
+
+         if (!$token = $this->jwt->attempt($request->only('email', 'password'))) {
+            return respond('error', 'User not found', 400);
+         }
+
+      } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+         return respond('error', 'Token Expired', 500);
+
+      } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+         return respond('error', 'Token Invalid', 500);
+
+      } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+         return respond('error', 'Token Not specified', 500);
+
       }
-      // Bad Request response
-      return respond('error', [
-         'error' => 'Email or password is not correct.'
-      ], 400);
+
+      return respond('success', [
+         'user' => $request->user(),
+         'token' => $token
+      ]);
    }
 
    /**
@@ -110,7 +124,7 @@ class AuthController extends Controller
          ]);
          return respond('success', [
             'user' => $user,
-            'token' => $this->jwt($user)
+            'token' => \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user)
          ]);
       } catch (\Exception $error) {
          return respond('error', [
@@ -120,14 +134,4 @@ class AuthController extends Controller
 
    }
 
-   protected function jwt(User $user)
-   {
-      $payload = [
-         'iss' => 'lumen-jwt', // Issuer of the token
-         'sub' => $user->id, // Subject of the token
-         'iat' => time(), // Time when JWT was issued.
-         'exp' => time() + 60 * 60 // Expiration time
-      ];
-      return JWT::encode($payload, env('JWT_SECRET'));
-   }
 }
