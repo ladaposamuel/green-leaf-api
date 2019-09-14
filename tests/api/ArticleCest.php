@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+
 class ArticleCest
 {
    public function _before(ApiTester $I)
@@ -106,6 +108,61 @@ class ArticleCest
    {
       $I->wantToTest('User should not able to get an article with wrong ID');
       $I->sendGET('/articles/900');
+      $I->seeResponseCodeIs(404);
+      $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
+   public function testDeleteAnArticle(ApiTester $I)
+   {
+
+      $I->wantToTest('User should be able to delete an article');
+
+      $article = factory(\App\Article::class)->create([
+         'title' => 'Hello world',
+         'message' => 'Lorem Ipsum',
+         'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+         },
+      ]);
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($article->user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendDELETE('/articles/' . $article->id);
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
+   }
+
+   public function testDeleteWrongArticle(ApiTester $I)
+   {
+
+      $I->wantToTest('User should not be  able to delete other articles');
+
+      $user = factory(\App\User::class)->create([
+         'email' => 'policeman3@gmail.com',
+         'password' => app('hash')->make('password'),
+      ]);
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendDELETE('/articles/2');
+      $I->seeResponseCodeIs(422);
+      $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
+   public function test404Article(ApiTester $I)
+   {
+
+      $I->wantToTest('User should get error on wrong article ID');
+
+      $user = factory(\App\User::class)->create([
+         'email' => 'policeman3@gmail.com',
+         'password' => app('hash')->make('password'),
+      ]);
+
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendDELETE('/articles/9000');
       $I->seeResponseCodeIs(404);
       $I->seeResponseContainsJson(['status' => 'error']);
    }

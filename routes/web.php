@@ -26,6 +26,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
        */
       $router->group(['middleware' => 'auth:api'], function () use ($router) {
          $router->post('/', 'Users\ArticleController@new');
+         $router->delete('/{id}', 'Users\ArticleController@delete');
       });
 
       /**
@@ -39,10 +40,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
     * Authentication routes
     */
    $router->group(['prefix' => 'auth'], function () use ($router) {
-
       $router->post('login', 'Users\AuthController@login');
       $router->post('register', 'Users\AuthController@register');
-
-
    });
 });
