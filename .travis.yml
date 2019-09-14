@@ -1,12 +1,8 @@
-language: php
+language: generic
 
-php:
-  - 7.2
+services:
+  - docker
 
-sudo: false
-
-install:
-  - composer install
-
-script:
-  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then phpunit --testdox; fi
+before_install:
+  - docker-compose build && docker-compose up -d 
+  - docker-compose exec greanleaf php vendor/bin/codecept run api 

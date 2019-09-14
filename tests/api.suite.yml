@@ -1,0 +1,15 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - Lumen:
+            url: http://localhost
+        - Filesystem
+        - Asserts
+        - Db
+        - \Helper\Api
+        - REST:
+            depends: Lumen
+            url: '/api/v1'
+    config:
+        - Db:
+            cleanup: true

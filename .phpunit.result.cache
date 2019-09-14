@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":164:{a:2:{s:7:"defects";a:1:{s:23:"AuthTest::testUserLogin";i:4;}s:5:"times";a:2:{s:23:"AuthTest::testUserLogin";d:1.79;s:31:"WelcomeTest::testWelcomeMessage";d:0.096;}}}
