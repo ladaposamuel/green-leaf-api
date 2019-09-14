@@ -144,4 +144,54 @@ class ArticleController extends Controller
          return respond('error', 'Article ID not specified or not found', 404);
       }
    }
+
+
+   /**
+    *
+    * Update Article
+    * @queryParam ID required The ID of the article. Example: 1
+    * @bodyParam title title required The title of the article.
+    * @bodyParam message string required The message of the article.
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : {}
+    * }
+    *
+    * @response 422 {
+    *  "status" : "error",
+    *  "data" : "You dont have access to update this article"
+    * }
+    *
+    *  * @response 404 {
+    *  "status" : "error",
+    *  "data" : "Article ID not specified or not found"
+    * }
+    *
+    */
+   public function update(Request $request, $id)
+   {
+      $validator = \Validator::make($request->all(), [
+         'title' => 'max:255'
+      ]);
+
+      if ($validator->fails()) {
+         return respond('error', $validator->errors(), 422);
+      }
+
+      try {
+         $article = Article::find($id);
+         if ((int)$article->user->id === Auth::id()) {
+            $article->title = $request->input('title') ?? $article->title;
+            $article->message = $request->input('message') ?? $article->message;
+            $article->save();
+         } else {
+            return respond('error', 'You dont have access to update this article', 422);
+         }
+
+         return respond('success', $article);
+      } catch (\Exception $e) {
+         return respond('error', 'Article ID not specified or not found', 404);
+      }
+   }
 }

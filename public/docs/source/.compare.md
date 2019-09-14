@@ -37,8 +37,8 @@ $response = $client->post("http://localhost/api/v1/articles", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "title" => "aliquid",
-            "message" => "blanditiis",
+            "title" => "hic",
+            "message" => "itaque",
         ],
 ]);
 $body = $response->getBody();
@@ -54,8 +54,8 @@ let headers = {
 }
 
 let body = {
-    "title": "aliquid",
-    "message": "blanditiis"
+    "title": "hic",
+    "message": "itaque"
 }
 
 fetch(url, {
@@ -96,6 +96,151 @@ Parameter | Type | Status | Description
     message | string |  required  | The message of the article.
 
 <!-- END_f25ad88ad3ff8f48775c1cc0cc4255fa -->
+
+<!-- START_42fa0e35e4d2e0a2cfe3a7b2d0755599 -->
+## Update Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->patch("http://localhost/api/v1/articles/1", [
+    'headers' => [
+            "Content-Type" => "application/json",
+        ],
+    'query' => [
+            "ID" => "1",
+        ],
+    'json' => [
+            "title" => "soluta",
+            "message" => "eligendi",
+        ],
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles/1");
+
+    let params = {
+            "ID": "1",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
+
+let body = {
+    "title": "soluta",
+    "message": "eligendi"
+}
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": {}
+}
+```
+> Example response (422):
+
+```json
+null
+```
+
+### HTTP Request
+`PATCH /api/v1/articles/{id}`
+
+#### Body Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    title | title |  required  | The title of the article.
+    message | string |  required  | The message of the article.
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    ID |  required  | The ID of the article.
+
+<!-- END_42fa0e35e4d2e0a2cfe3a7b2d0755599 -->
+
+<!-- START_9bbfc77e31962e3921c3d1a010002cc9 -->
+## Delete an Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->delete("http://localhost/api/v1/articles/1", [
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles/1");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": "Article Deleted successfully"
+}
+```
+> Example response (404):
+
+```json
+{
+    "status": "error",
+    "error": "Article ID not specified or not found"
+}
+```
+> Example response (422):
+
+```json
+{
+    "status": "error",
+    "error": "You dont have access to delete this article"
+}
+```
+
+### HTTP Request
+`DELETE /api/v1/articles/{id}`
+
+
+<!-- END_9bbfc77e31962e3921c3d1a010002cc9 -->
 
 <!-- START_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
 ## List all Articles
@@ -219,8 +364,8 @@ $response = $client->post("http://localhost/api/v1/auth/login", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "email" => "quia",
-            "password" => "consequatur",
+            "email" => "itaque",
+            "password" => "et",
         ],
 ]);
 $body = $response->getBody();
@@ -236,8 +381,8 @@ let headers = {
 }
 
 let body = {
-    "email": "quia",
-    "password": "consequatur"
+    "email": "itaque",
+    "password": "et"
 }
 
 fetch(url, {
@@ -287,9 +432,9 @@ $response = $client->post("http://localhost/api/v1/auth/register", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "name" => "in",
-            "email" => "officia",
-            "password" => "veniam",
+            "name" => "dolorum",
+            "email" => "dolores",
+            "password" => "repellendus",
         ],
 ]);
 $body = $response->getBody();
@@ -305,9 +450,9 @@ let headers = {
 }
 
 let body = {
-    "name": "in",
-    "email": "officia",
-    "password": "veniam"
+    "name": "dolorum",
+    "email": "dolores",
+    "password": "repellendus"
 }
 
 fetch(url, {
