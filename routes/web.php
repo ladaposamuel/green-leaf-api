@@ -12,5 +12,14 @@
 */
 
 $router->get('/', [
-    'as' => 'index', 'uses' => 'WelcomeController@index'
+   'as' => 'index', 'uses' => 'WelcomeController@index'
 ]);
+
+$router->group(['prefix' => 'api/v1'], function () use ($router) {
+   $router->group(['prefix' => 'auth'], function () use ($router) {
+
+
+      $router->post('login', 'Users\AuthController@login');
+
+   });
+});

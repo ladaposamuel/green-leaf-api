@@ -26,6 +26,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 
 
+# Install PHPUnit 8
+RUN curl --silent --show-error --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-8.phar \
+  && chmod +x /usr/local/bin/phpunit
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
