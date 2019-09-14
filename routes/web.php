@@ -32,6 +32,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
        * Non protected Articles routes
        */
       $router->get('/', 'Users\ArticleController@list');
+      $router->get('/{id}', 'Users\ArticleController@view');
    });
 
    /**

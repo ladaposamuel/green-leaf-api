@@ -93,5 +93,22 @@ class ArticleCest
       $I->seeResponseContainsJson(['status' => 'success']);
    }
 
+   public function testGetAnArticle(ApiTester $I)
+   {
+      $I->wantToTest('User should be able to get an article with ID');
+      $I->sendGET('/articles/1');
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
+   }
+
+
+   public function testGetAnArticleError(ApiTester $I)
+   {
+      $I->wantToTest('User should not able to get an article with wrong ID');
+      $I->sendGET('/articles/900');
+      $I->seeResponseCodeIs(404);
+      $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
 
 }

@@ -62,8 +62,8 @@ $response = $client-&gt;post("http://localhost/api/v1/articles", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "title" =&gt; "reprehenderit",
-            "message" =&gt; "sed",
+            "title" =&gt; "aliquid",
+            "message" =&gt; "blanditiis",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -76,8 +76,8 @@ let headers = {
 }
 
 let body = {
-    "title": "reprehenderit",
-    "message": "sed"
+    "title": "aliquid",
+    "message": "blanditiis"
 }
 
 fetch(url, {
@@ -90,7 +90,17 @@ fetch(url, {
 <blockquote>
 <p>Example response (200):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "status": "success",
+    "data": "Article Posted successfully"
+}</code></pre>
+<blockquote>
+<p>Example response (422):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "error",
+    "data": "Validation errors"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST /api/v1/articles</code></p>
 <h4>Body Parameters</h4>
@@ -119,6 +129,85 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_f25ad88ad3ff8f48775c1cc0cc4255fa -->
+<!-- START_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+<h2>List all Articles</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get("http://localhost/api/v1/articles", [
+]);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/v1/articles");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "success",
+    "data": []
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /api/v1/articles</code></p>
+<!-- END_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+<!-- START_82a5dbdb9d45bfefd05442a42aa9423c -->
+<h2>Get an Article</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get("http://localhost/api/v1/articles/1", [
+]);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/v1/articles/1");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "success",
+    "data": {}
+}</code></pre>
+<blockquote>
+<p>Example response (404):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "error",
+    "error": "Article ID not found"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /api/v1/articles/{id}</code></p>
+<!-- END_82a5dbdb9d45bfefd05442a42aa9423c -->
 <h1>Authentication Route</h1>
 <p>Auth route</p>
 <!-- START_f76cc718539c2362f0d0a7069100319e -->
@@ -133,8 +222,8 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/login", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "email" =&gt; "est",
-            "password" =&gt; "tenetur",
+            "email" =&gt; "quia",
+            "password" =&gt; "consequatur",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -147,8 +236,8 @@ let headers = {
 }
 
 let body = {
-    "email": "est",
-    "password": "tenetur"
+    "email": "quia",
+    "password": "consequatur"
 }
 
 fetch(url, {
@@ -208,9 +297,9 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/register", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "name" =&gt; "odit",
-            "email" =&gt; "maiores",
-            "password" =&gt; "natus",
+            "name" =&gt; "in",
+            "email" =&gt; "officia",
+            "password" =&gt; "veniam",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -223,9 +312,9 @@ let headers = {
 }
 
 let body = {
-    "name": "odit",
-    "email": "maiores",
-    "password": "natus"
+    "name": "in",
+    "email": "officia",
+    "password": "veniam"
 }
 
 fetch(url, {
