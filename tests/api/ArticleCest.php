@@ -167,5 +167,65 @@ class ArticleCest
       $I->seeResponseContainsJson(['status' => 'error']);
    }
 
+   public function testUpdateArticleSuccess(ApiTester $I)
+   {
+
+      $I->wantToTest('User should be able to update an article');
+
+      $article = factory(\App\Article::class)->create([
+         'title' => 'Hello world',
+         'message' => 'Lorem Ipsum',
+         'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+         },
+      ]);
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($article->user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendPATCH('/articles/' . $article->id, ['title' => 'New title']);
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
+   }
+
+   public function testUpdateArticleValidation(ApiTester $I)
+   {
+
+      $I->wantToTest('User should be able to update their article only');
+
+      $article = factory(\App\Article::class)->create([
+         'title' => 'Hello world',
+         'message' => 'Lorem Ipsum',
+         'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+         },
+      ]);
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($article->user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendPATCH('/articles/2');
+      $I->seeResponseCodeIs(422);
+      $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
+   public function testUpdateArticleNotFound(ApiTester $I)
+   {
+
+      $I->wantToTest('User should be able to update their article only');
+
+      $article = factory(\App\Article::class)->create([
+         'title' => 'Hello world',
+         'message' => 'Lorem Ipsum',
+         'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+         },
+      ]);
+      $token = \Tymon\JWTAuth\Facades\JWTAuth::fromUser($article->user);
+      $I->amBearerAuthenticated($token);
+
+      $I->sendPATCH('/articles/400');
+      $I->seeResponseCodeIs(404);
+      $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
 
 }

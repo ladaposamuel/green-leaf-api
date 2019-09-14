@@ -26,6 +26,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
        */
       $router->group(['middleware' => 'auth:api'], function () use ($router) {
          $router->post('/', 'Users\ArticleController@new');
+         $router->patch('/{id}', 'Users\ArticleController@update');
          $router->delete('/{id}', 'Users\ArticleController@delete');
       });
 
