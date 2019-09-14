@@ -20,6 +20,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 
 
       $router->post('login', 'Users\AuthController@login');
+      $router->post('register', 'Users\AuthController@register');
 
    });
 });
