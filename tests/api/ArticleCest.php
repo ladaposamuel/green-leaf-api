@@ -6,7 +6,7 @@ class ArticleCest
    {
    }
 
-   public function userShouldBeAbleToPost(ApiTester $I)
+   public function testAuth(ApiTester $I)
    {
       $I->wantToTest('User should be authenticated  to post an article');
       // create user data using factory
@@ -16,7 +16,6 @@ class ArticleCest
       ]);
       // send credential data
       $I->sendPOST('/articles', ['title' => 'Nice title', 'message' => 'Nice message']);
-      // login success
       $I->seeResponseCodeIs(401);
       // check if returned user data is contain expected email
       $I->seeResponseContainsJson(['status' => 'error']);
@@ -84,6 +83,14 @@ class ArticleCest
       $I->seeResponseCodeIs(422);
       // check if returned user data is contain expected email
       $I->seeResponseContainsJson(['status' => 'error']);
+   }
+
+   public function testGetAllArticles(ApiTester $I)
+   {
+      $I->wantToTest('User should be able to get all articles');
+      $I->sendGET('/articles');
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
    }
 
 
