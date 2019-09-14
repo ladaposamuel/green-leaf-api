@@ -228,4 +228,20 @@ class ArticleCest
    }
 
 
+   public function testArticleSearch(ApiTester $I)
+   {
+      $I->wantToTest('User should be able to search for articles');
+
+      factory(\App\Article::class)->create([
+         'title' => 'Hello world 1',
+         'message' => 'Lorem Ipsum 2',
+         'user_id' => function () {
+            return factory(App\User::class)->create()->id;
+         },
+      ]);
+
+      $I->sendGET('/articles/search/Hello');
+      $I->seeResponseCodeIs(200);
+      $I->seeResponseContainsJson(['status' => 'success']);
+   }
 }

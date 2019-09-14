@@ -194,4 +194,31 @@ class ArticleController extends Controller
          return respond('error', 'Article ID not specified or not found', 404);
       }
    }
+
+
+   /**
+    *
+    * Search Article
+    * @queryParam q required The search query of the article. Example: hello
+    *
+    * @response {
+    *  "status" : "success",
+    *  "data" : []
+    * }
+    *
+    * @response 422 {
+    *  "status" : "error",
+    *  "data" : "You need to specify a search query"
+    * }
+    *
+    *
+    */
+   public function search($q)
+   {
+      if ($q) {
+         $articles = Article::where('title', 'LIKE', '%' . $q . '%')->get();
+         return respond('success', $articles);
+      }
+      return respond('error', 'You need to specify a search query', 422);
+   }
 }

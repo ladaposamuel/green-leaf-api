@@ -62,8 +62,8 @@ $response = $client-&gt;post("http://localhost/api/v1/articles", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "title" =&gt; "hic",
-            "message" =&gt; "itaque",
+            "title" =&gt; "nemo",
+            "message" =&gt; "cumque",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -76,8 +76,8 @@ let headers = {
 }
 
 let body = {
-    "title": "hic",
-    "message": "itaque"
+    "title": "nemo",
+    "message": "cumque"
 }
 
 fetch(url, {
@@ -144,8 +144,8 @@ $response = $client-&gt;patch("http://localhost/api/v1/articles/1", [
             "ID" =&gt; "1",
         ],
     'json' =&gt; [
-            "title" =&gt; "soluta",
-            "message" =&gt; "eligendi",
+            "title" =&gt; "molestias",
+            "message" =&gt; "ut",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -163,8 +163,8 @@ let headers = {
 }
 
 let body = {
-    "title": "soluta",
-    "message": "eligendi"
+    "title": "molestias",
+    "message": "ut"
 }
 
 fetch(url, {
@@ -357,6 +357,76 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET /api/v1/articles/{id}</code></p>
 <!-- END_82a5dbdb9d45bfefd05442a42aa9423c -->
+<!-- START_1a1967989f9f4a30200b22a89467e7ab -->
+<h2>Search Article</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get("http://localhost/api/v1/articles/search/1", [
+    'query' =&gt; [
+            "q" =&gt; "hello",
+        ],
+]);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/v1/articles/search/1");
+
+    let params = {
+            "q": "hello",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "success",
+    "data": []
+}</code></pre>
+<blockquote>
+<p>Example response (422):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "error",
+    "data": "You need to specify a search query"
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET /api/v1/articles/search/{q}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>q</td>
+<td>required</td>
+<td>The search query of the article.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_1a1967989f9f4a30200b22a89467e7ab -->
 <h1>Authentication Route</h1>
 <p>Auth route</p>
 <!-- START_f76cc718539c2362f0d0a7069100319e -->
@@ -371,8 +441,8 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/login", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "email" =&gt; "itaque",
-            "password" =&gt; "et",
+            "email" =&gt; "nihil",
+            "password" =&gt; "possimus",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -385,8 +455,8 @@ let headers = {
 }
 
 let body = {
-    "email": "itaque",
-    "password": "et"
+    "email": "nihil",
+    "password": "possimus"
 }
 
 fetch(url, {
@@ -446,9 +516,9 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/register", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "name" =&gt; "dolorum",
-            "email" =&gt; "dolores",
-            "password" =&gt; "repellendus",
+            "name" =&gt; "in",
+            "email" =&gt; "aspernatur",
+            "password" =&gt; "non",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -461,9 +531,9 @@ let headers = {
 }
 
 let body = {
-    "name": "dolorum",
-    "email": "dolores",
-    "password": "repellendus"
+    "name": "in",
+    "email": "aspernatur",
+    "password": "non"
 }
 
 fetch(url, {
