@@ -35,6 +35,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
        */
       $router->get('/', 'Users\ArticleController@list');
       $router->get('/{id}', 'Users\ArticleController@view');
+      $router->get('/search/{q}', 'Users\ArticleController@search');
    });
 
    /**

@@ -37,8 +37,8 @@ $response = $client->post("http://localhost/api/v1/articles", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "title" => "hic",
-            "message" => "itaque",
+            "title" => "nemo",
+            "message" => "cumque",
         ],
 ]);
 $body = $response->getBody();
@@ -54,8 +54,8 @@ let headers = {
 }
 
 let body = {
-    "title": "hic",
-    "message": "itaque"
+    "title": "nemo",
+    "message": "cumque"
 }
 
 fetch(url, {
@@ -113,8 +113,8 @@ $response = $client->patch("http://localhost/api/v1/articles/1", [
             "ID" => "1",
         ],
     'json' => [
-            "title" => "soluta",
-            "message" => "eligendi",
+            "title" => "molestias",
+            "message" => "ut",
         ],
 ]);
 $body = $response->getBody();
@@ -135,8 +135,8 @@ let headers = {
 }
 
 let body = {
-    "title": "soluta",
-    "message": "eligendi"
+    "title": "molestias",
+    "message": "ut"
 }
 
 fetch(url, {
@@ -347,6 +347,78 @@ fetch(url, {
 
 <!-- END_82a5dbdb9d45bfefd05442a42aa9423c -->
 
+<!-- START_1a1967989f9f4a30200b22a89467e7ab -->
+## Search Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get("http://localhost/api/v1/articles/search/1", [
+    'query' => [
+            "q" => "hello",
+        ],
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles/search/1");
+
+    let params = {
+            "q": "hello",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": []
+}
+```
+> Example response (422):
+
+```json
+{
+    "status": "error",
+    "data": "You need to specify a search query"
+}
+```
+> Example response (500):
+
+```json
+null
+```
+
+### HTTP Request
+`GET /api/v1/articles/search/{q}`
+
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    q |  required  | The search query of the article.
+
+<!-- END_1a1967989f9f4a30200b22a89467e7ab -->
+
 #Authentication Route
 
 
@@ -364,8 +436,8 @@ $response = $client->post("http://localhost/api/v1/auth/login", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "email" => "itaque",
-            "password" => "et",
+            "email" => "nihil",
+            "password" => "possimus",
         ],
 ]);
 $body = $response->getBody();
@@ -381,8 +453,8 @@ let headers = {
 }
 
 let body = {
-    "email": "itaque",
-    "password": "et"
+    "email": "nihil",
+    "password": "possimus"
 }
 
 fetch(url, {
@@ -432,9 +504,9 @@ $response = $client->post("http://localhost/api/v1/auth/register", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "name" => "dolorum",
-            "email" => "dolores",
-            "password" => "repellendus",
+            "name" => "in",
+            "email" => "aspernatur",
+            "password" => "non",
         ],
 ]);
 $body = $response->getBody();
@@ -450,9 +522,9 @@ let headers = {
 }
 
 let body = {
-    "name": "dolorum",
-    "email": "dolores",
-    "password": "repellendus"
+    "name": "in",
+    "email": "aspernatur",
+    "password": "non"
 }
 
 fetch(url, {
