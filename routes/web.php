@@ -34,6 +34,7 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
        * Non protected Articles routes
        */
       $router->get('/', 'Users\ArticleController@list');
+      $router->post('/{id}/rating', 'Users\ArticleController@rate');
       $router->get('/{id}', 'Users\ArticleController@view');
       $router->get('/search/{q}', 'Users\ArticleController@search');
    });

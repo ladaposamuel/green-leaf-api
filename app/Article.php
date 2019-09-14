@@ -12,4 +12,9 @@ class Article extends Model
    {
       return $this->belongsTo('App\User');
    }
+
+   public function ratings()
+   {
+      return $this->belongsTo('App\Rating');
+   }
 }

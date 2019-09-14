@@ -27,6 +27,7 @@ Auth route
 <!-- START_f25ad88ad3ff8f48775c1cc0cc4255fa -->
 ## New Article
 
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 > Example request:
 
 ```php
@@ -37,8 +38,8 @@ $response = $client->post("http://localhost/api/v1/articles", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "title" => "nemo",
-            "message" => "cumque",
+            "title" => "ut",
+            "message" => "voluptatem",
         ],
 ]);
 $body = $response->getBody();
@@ -54,8 +55,8 @@ let headers = {
 }
 
 let body = {
-    "title": "nemo",
-    "message": "cumque"
+    "title": "ut",
+    "message": "voluptatem"
 }
 
 fetch(url, {
@@ -100,6 +101,7 @@ Parameter | Type | Status | Description
 <!-- START_42fa0e35e4d2e0a2cfe3a7b2d0755599 -->
 ## Update Article
 
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 > Example request:
 
 ```php
@@ -113,8 +115,8 @@ $response = $client->patch("http://localhost/api/v1/articles/1", [
             "ID" => "1",
         ],
     'json' => [
-            "title" => "molestias",
-            "message" => "ut",
+            "title" => "et",
+            "message" => "sed",
         ],
 ]);
 $body = $response->getBody();
@@ -135,8 +137,8 @@ let headers = {
 }
 
 let body = {
-    "title": "molestias",
-    "message": "ut"
+    "title": "et",
+    "message": "sed"
 }
 
 fetch(url, {
@@ -183,6 +185,7 @@ Parameter | Status | Description
 <!-- START_9bbfc77e31962e3921c3d1a010002cc9 -->
 ## Delete an Article
 
+<br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
 > Example request:
 
 ```php
@@ -292,6 +295,73 @@ null
 
 
 <!-- END_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+
+<!-- START_12bd6b1173c24fffe530e97efe22e89a -->
+## Rate Article
+
+> Example request:
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post("http://localhost/api/v1/articles/1/rating", [
+    'query' => [
+            "ID" => "hello",
+        ],
+]);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+```javascript
+const url = new URL("http://localhost/api/v1/articles/1/rating");
+
+    let params = {
+            "ID": "hello",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status": "success",
+    "data": "Ratings posted successfully"
+}
+```
+> Example response (404):
+
+```json
+{
+    "status": "error",
+    "data": "Article ID not specified or not found"
+}
+```
+
+### HTTP Request
+`POST /api/v1/articles/{id}/rating`
+
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    ID |  required  | The search query of the article.
+
+<!-- END_12bd6b1173c24fffe530e97efe22e89a -->
 
 <!-- START_82a5dbdb9d45bfefd05442a42aa9423c -->
 ## Get an Article
@@ -436,8 +506,8 @@ $response = $client->post("http://localhost/api/v1/auth/login", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "email" => "nihil",
-            "password" => "possimus",
+            "email" => "earum",
+            "password" => "optio",
         ],
 ]);
 $body = $response->getBody();
@@ -453,8 +523,8 @@ let headers = {
 }
 
 let body = {
-    "email": "nihil",
-    "password": "possimus"
+    "email": "earum",
+    "password": "optio"
 }
 
 fetch(url, {
@@ -504,9 +574,9 @@ $response = $client->post("http://localhost/api/v1/auth/register", [
             "Content-Type" => "application/json",
         ],
     'json' => [
-            "name" => "in",
-            "email" => "aspernatur",
-            "password" => "non",
+            "name" => "cum",
+            "email" => "in",
+            "password" => "et",
         ],
 ]);
 $body = $response->getBody();
@@ -522,9 +592,9 @@ let headers = {
 }
 
 let body = {
-    "name": "in",
-    "email": "aspernatur",
-    "password": "non"
+    "name": "cum",
+    "email": "in",
+    "password": "et"
 }
 
 fetch(url, {

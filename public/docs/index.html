@@ -52,6 +52,7 @@
 <p>Auth route</p>
 <!-- START_f25ad88ad3ff8f48775c1cc0cc4255fa -->
 <h2>New Article</h2>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -62,8 +63,8 @@ $response = $client-&gt;post("http://localhost/api/v1/articles", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "title" =&gt; "nemo",
-            "message" =&gt; "cumque",
+            "title" =&gt; "ut",
+            "message" =&gt; "voluptatem",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -76,8 +77,8 @@ let headers = {
 }
 
 let body = {
-    "title": "nemo",
-    "message": "cumque"
+    "title": "ut",
+    "message": "voluptatem"
 }
 
 fetch(url, {
@@ -131,6 +132,7 @@ fetch(url, {
 <!-- END_f25ad88ad3ff8f48775c1cc0cc4255fa -->
 <!-- START_42fa0e35e4d2e0a2cfe3a7b2d0755599 -->
 <h2>Update Article</h2>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -144,8 +146,8 @@ $response = $client-&gt;patch("http://localhost/api/v1/articles/1", [
             "ID" =&gt; "1",
         ],
     'json' =&gt; [
-            "title" =&gt; "molestias",
-            "message" =&gt; "ut",
+            "title" =&gt; "et",
+            "message" =&gt; "sed",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -163,8 +165,8 @@ let headers = {
 }
 
 let body = {
-    "title": "molestias",
-    "message": "ut"
+    "title": "et",
+    "message": "sed"
 }
 
 fetch(url, {
@@ -232,6 +234,7 @@ fetch(url, {
 <!-- END_42fa0e35e4d2e0a2cfe3a7b2d0755599 -->
 <!-- START_9bbfc77e31962e3921c3d1a010002cc9 -->
 <h2>Delete an Article</h2>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small></p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -316,6 +319,72 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET /api/v1/articles</code></p>
 <!-- END_8bd67d5b8c23072f4e39d2b3cf69dfa1 -->
+<!-- START_12bd6b1173c24fffe530e97efe22e89a -->
+<h2>Rate Article</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post("http://localhost/api/v1/articles/1/rating", [
+    'query' =&gt; [
+            "ID" =&gt; "hello",
+        ],
+]);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<pre><code class="language-javascript">const url = new URL("http://localhost/api/v1/articles/1/rating");
+
+    let params = {
+            "ID": "hello",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "success",
+    "data": "Ratings posted successfully"
+}</code></pre>
+<blockquote>
+<p>Example response (404):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status": "error",
+    "data": "Article ID not specified or not found"
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST /api/v1/articles/{id}/rating</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>required</td>
+<td>The search query of the article.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_12bd6b1173c24fffe530e97efe22e89a -->
 <!-- START_82a5dbdb9d45bfefd05442a42aa9423c -->
 <h2>Get an Article</h2>
 <blockquote>
@@ -441,8 +510,8 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/login", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "email" =&gt; "nihil",
-            "password" =&gt; "possimus",
+            "email" =&gt; "earum",
+            "password" =&gt; "optio",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -455,8 +524,8 @@ let headers = {
 }
 
 let body = {
-    "email": "nihil",
-    "password": "possimus"
+    "email": "earum",
+    "password": "optio"
 }
 
 fetch(url, {
@@ -516,9 +585,9 @@ $response = $client-&gt;post("http://localhost/api/v1/auth/register", [
             "Content-Type" =&gt; "application/json",
         ],
     'json' =&gt; [
-            "name" =&gt; "in",
-            "email" =&gt; "aspernatur",
-            "password" =&gt; "non",
+            "name" =&gt; "cum",
+            "email" =&gt; "in",
+            "password" =&gt; "et",
         ],
 ]);
 $body = $response-&gt;getBody();
@@ -531,9 +600,9 @@ let headers = {
 }
 
 let body = {
-    "name": "in",
-    "email": "aspernatur",
-    "password": "non"
+    "name": "cum",
+    "email": "in",
+    "password": "et"
 }
 
 fetch(url, {
