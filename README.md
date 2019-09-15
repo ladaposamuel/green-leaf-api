@@ -1,10 +1,8 @@
 # Green Leaf - A simple article API service
 
-[![Build Status](https://travis-ci.com/ladaposamuel/green-leaf-api.svg?branch=develop)](https://travis-ci.com/ladaposamuel/green-leaf-api)
+#### Project URL
+[Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2397587)
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Endpoints
 
@@ -16,12 +14,22 @@ These instructions will get you a copy of the project up and running on your loc
 | Update | `PUT/PATCH` | `/articles/{id}`        | ✓         |
 | Delete | `DELETE`    | `/articles/{id}`        | ✓         |
 | Rate   | `POST`      | `/articles/{id}/rating` | ✘         |
+| Search | `GET`        | `/articles/search/{query}`| ✘|
+| Login | `POST`    | `/auth/login` | |
+| Register | `POST`    | `/auth/register` | |
+
+For more details check the `/public/docs/index.html` inside the project directory.
+
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine.
 
 ### Prerequisites
 
 - [Docker](https://docker.com)
 
-### Installing
+### SETUP
 
 #### Step 1
 
@@ -40,28 +48,42 @@ git clone https://github.com/ladaposamuel/green-leaf-api
 CD into the project directory and run the following commands
 
 ```bash
-docker-compose up -d
+docker-compose build && docker-compose up -d
 ```
+>this command will fire up the project's docker images, it might take a while so watch some [Youtube](https://youtube.com) as you wait.
+
+
+#### Step 4
+
+Create a `.env` file
+
+```bash
+cp .env.example .env
+```
+`NOTE: prefilled for the test`
+
+
 
 ### Step 4
 
 Access the API endpoints using your local IP or current IP address.
-Example : `http://localhost:{port}` or `http://189.2.2.1`
+Example : `http://localhost`
 
->this command will fire up the project's docker images, it might take a while so watch some [Youtube](https://youtube.com) as you wait.
 
 ## Running the tests
 
->coming soon
+To run the tests run
 
-## Deployment
+```bash
+docker-compose exec greanleaf php vendor/bin/codecept run api
+```
 
->coming soon
 
 ## Built With
 
 - [PHP](https://php.org) - The programming language used
 - [Lumen](https://lumen.laravel.com) - The web framework used
+- [Codeception](https://codeception.com) - Testing framework
 - [Docker](https://docker.com)
 
 ## Authors
