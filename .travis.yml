@@ -1,8 +1,29 @@
+services: docker
 language: generic
 
-services:
-  - docker
-
 before_install:
-  - docker-compose build && docker-compose up -d 
-  - docker-compose exec greanleaf php vendor/bin/codecept run api 
+  # Strips out dashes in organization names because they are not allowed in dockerhub
+  - export DOCKER_REPO=`awk -F/ '{gsub("-","",$1)};{print $1"/"$2}' <<<$TRAVIS_REPO_SLUG | tr '[:upper:]' '[:lower:]'`
+  - export IMAGE_SLUG="$TRAVIS_BRANCH.${TRAVIS_COMMIT::8}.${TRAVIS_BUILD_ID}"
+  - docker -v
+  - cp .env.example .env
+  # Stop the postgres instance travis sets up automatically
+  - sudo /etc/init.d/postgresql stop
+  # set env vars in the build settings to interact with repositories
+  # see https://docs.travis-ci.com/user/environment-variables/#Defining-Variables-in-Repository-Settings
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+  # Start the docker stuff
+  - docker-compose -v
+  - docker-compose up -d
+  - sleep 4
+  - docker-compose ps
+
+
+script:
+  # Seed database
+  - docker-compose exec --user="root" greanleaf php artisan migrate --seed
+  # Run tests
+  - docker-compose exec --user="root" greanleaf php vendor/bin/codecept run api
+after_script:
+  - docker images
