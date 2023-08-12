@@ -13,6 +13,9 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * This module uses Symfony Crawler and HttpKernel to emulate requests and test response.
@@ -262,7 +265,17 @@ class Symfony extends Framework implements DoctrineProvider, PartedModule
      */
     public function _getContainer()
     {
-        return $this->kernel->getContainer();
+        $container = $this->kernel->getContainer();
+
+        if (!($container instanceof ContainerInterface)) {
+            $this->fail('Could not get Symfony container');
+        }
+
+        if ($container->has('test.service_container')) {
+            return $container->get('test.service_container');
+        }
+
+        return $container;
     }
 
     /**
@@ -531,6 +544,41 @@ class Symfony extends Framework implements DoctrineProvider, PartedModule
             $this->fail("Service $service is not available in container");
         }
         return $container->get($service);
+    }
+    
+    /**
+     * Run Symfony console command, grab response and return as string.
+     * Recommended to use for integration or functional testing.
+     *
+     * ``` php
+     * <?php
+     * $result = $I->runSymfonyConsoleCommand('hello:world', '--verbose' => 3]);
+     * ?>
+     * ```
+     *
+     * @param string  $command
+     * @param mixed[] $params
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function runSymfonyConsoleCommand(string $command, array $params = [])
+    {
+        $application = new Application($this->kernel);
+        $application->setAutoExit(false);
+        $params['command'] = $command;
+
+        $input = new ArrayInput($params);
+        $output = new BufferedOutput();
+        $code = $application->run($input, $output);
+
+        // return the output, don't use if you used NullOutput()
+        $content = $output->fetch();
+
+        $this->assertEquals(0, $code, 'Exit code in '.$command.' is not equal 0 :'.$content);
+
+        return $content;
     }
 
     /**

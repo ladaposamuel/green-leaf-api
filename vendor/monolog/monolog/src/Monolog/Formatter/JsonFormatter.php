@@ -38,9 +38,11 @@ class JsonFormatter extends NormalizerFormatter
     /**
      * @param int $batchMode
      * @param bool $appendNewline
+     * @param int $maxDepth
      */
-    public function __construct($batchMode = self::BATCH_MODE_JSON, $appendNewline = true)
+    public function __construct($batchMode = self::BATCH_MODE_JSON, $appendNewline = true, $maxDepth = 9)
     {
+        parent::__construct(null, $maxDepth);
         $this->batchMode = $batchMode;
         $this->appendNewline = $appendNewline;
     }
@@ -141,11 +143,11 @@ class JsonFormatter extends NormalizerFormatter
      */
     protected function normalize($data, $depth = 0)
     {
-        if ($depth > 9) {
-            return 'Over 9 levels deep, aborting normalization';
+        if ($depth > $this->maxDepth) {
+            return 'Over '.$this->maxDepth.' levels deep, aborting normalization';
         }
 
-        if (is_array($data) || $data instanceof \Traversable) {
+        if (is_array($data)) {
             $normalized = array();
 
             $count = 1;
@@ -163,6 +165,10 @@ class JsonFormatter extends NormalizerFormatter
 
         if ($data instanceof Exception || $data instanceof Throwable) {
             return $this->normalizeException($data);
+        }
+
+        if (is_resource($data)) {
+            return parent::normalize($data);
         }
 
         return $data;
@@ -186,7 +192,7 @@ class JsonFormatter extends NormalizerFormatter
         $data = array(
             'class' => Utils::getClass($e),
             'message' => $e->getMessage(),
-            'code' => $e->getCode(),
+            'code' => (int) $e->getCode(),
             'file' => $e->getFile().':'.$e->getLine(),
         );
 

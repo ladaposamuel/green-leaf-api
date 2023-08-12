@@ -73,7 +73,7 @@ class Response
      */
     protected function buildHeader($name, $value)
     {
-        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.3.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.3.', __METHOD__), \E_USER_DEPRECATED);
 
         return sprintf("%s: %s\n", $name, $value);
     }
@@ -97,7 +97,7 @@ class Response
      */
     public function getStatus()
     {
-        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.3, use getStatusCode() instead.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.3, use getStatusCode() instead.', __METHOD__), \E_USER_DEPRECATED);
 
         return $this->status;
     }
@@ -123,7 +123,7 @@ class Response
      * @param string $header The header name
      * @param bool   $first  Whether to return the first value or all header values
      *
-     * @return string|array The first header value if $first is true, an array of values otherwise
+     * @return string|array|null The first header value if $first is true, an array of values otherwise
      */
     public function getHeader($header, $first = true)
     {

@@ -34,7 +34,7 @@ final class NotTaggedControllerValueResolver implements ArgumentValueResolverInt
     /**
      * {@inheritdoc}
      */
-    public function supports(Request $request, ArgumentMetadata $argument)
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         $controller = $request->attributes->get('_controller');
 
@@ -58,7 +58,7 @@ final class NotTaggedControllerValueResolver implements ArgumentValueResolverInt
     /**
      * {@inheritdoc}
      */
-    public function resolve(Request $request, ArgumentMetadata $argument)
+    public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (\is_array($controller = $request->attributes->get('_controller'))) {
             $controller = $controller[0].'::'.$controller[1];
@@ -69,8 +69,9 @@ final class NotTaggedControllerValueResolver implements ArgumentValueResolverInt
         }
 
         if (!$this->container->has($controller)) {
-            $i = strrpos($controller, ':');
-            $controller = substr($controller, 0, $i).strtolower(substr($controller, $i));
+            $controller = (false !== $i = strrpos($controller, ':'))
+                ? substr($controller, 0, $i).strtolower(substr($controller, $i))
+                : $controller.'::__invoke';
         }
 
         $what = sprintf('argument $%s of "%s()"', $argument->getName(), $controller);

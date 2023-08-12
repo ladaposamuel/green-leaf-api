@@ -8,6 +8,8 @@ Silly CLI micro-framework based on Symfony Console.
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/mnapoli/silly.svg?style=flat-square)](https://scrutinizer-ci.com/g/mnapoli/silly/?branch=master)
 [![Packagist](https://img.shields.io/packagist/dt/mnapoli/silly.svg?maxAge=2592000)](https://packagist.org/packages/mnapoli/silly)
 
+Professional support for Silly [is available via Tidelift](https://tidelift.com/subscription/pkg/packagist-mnapoli-silly?utm_source=packagist-mnapoli-silly&utm_medium=referral&utm_campaign=readme)
+
 - [Video introduction in french](https://www.youtube.com/watch?v=aoE1FDN5_8s)
 
 ## Installation
@@ -26,11 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 $app = new Silly\Application();
 
 $app->command('greet [name] [--yell]', function ($name, $yell, OutputInterface $output) {
-    if ($name) {
-        $text = 'Hello, '.$name;
-    } else {
-        $text = 'Hello';
-    }
+    $text = $name ? "Hello, $name" : "Hello";
 
     if ($yell) {
         $text = strtoupper($text);

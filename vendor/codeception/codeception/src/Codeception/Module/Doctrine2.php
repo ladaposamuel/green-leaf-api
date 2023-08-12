@@ -505,7 +505,7 @@ EOF;
 
         $pk = $this->extractPrimaryKey($instance);
 
-        $this->debug(get_class($instance) . " entity created with primary key " . var_export($pk, true));
+        $this->debugEntityCreation($instance, $pk);
 
         return $pk;
     }
@@ -880,7 +880,7 @@ EOF;
      * @param $entity
      * @param $field
      * @param array $params
-     * @return array
+     * @return mixed
      */
     public function grabFromRepository($entity, $field, $params = [])
     {
@@ -1011,5 +1011,55 @@ EOF;
             $this->retrieveEntityManager();
         }
         return $this->em;
+    }
+
+    /**
+     * @param mixed $instance
+     * @param mixed $pks
+     *
+     * @throws \ReflectionException
+     */
+    private function debugEntityCreation($instance, $pks)
+    {
+        $message = get_class($instance).' entity created with ';
+
+        if (!is_array($pks)) {
+            $pks     = [$pks];
+            $message .= 'primary key ';
+        } else {
+            $message .= 'composite primary key of ';
+        }
+
+        foreach ($pks as $pk) {
+            if ($this->isDoctrineEntity($pk)) {
+                $message .= get_class($pk).': '.var_export($this->extractPrimaryKey($pk), true).', ';
+            } else {
+                $message .= var_export($pk, true).', ';
+            }
+        }
+
+        $this->debug(trim($message, ' ,'));
+    }
+
+    /**
+     * @param mixed $pk
+     *
+     * @return bool
+     */
+    private function isDoctrineEntity($pk)
+    {
+        $isEntity = is_object($pk);
+
+        if ($isEntity) {
+            try {
+                $this->em->getClassMetadata(get_class($pk));
+            } catch (\Doctrine\ORM\Mapping\MappingException $ex) {
+                $isEntity = false;
+            } catch (\Doctrine\Common\Persistence\Mapping\MappingException $ex) {
+                $isEntity = false;
+            }
+        }
+
+        return $isEntity;
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Silly;
 
-use ReflectionFunctionAbstract;
 use Invoker\ParameterResolver\ParameterResolver;
+use ReflectionFunctionAbstract;
 
 /**
  * Tries to maps hyphenated parameters to a similarly-named,
@@ -18,7 +18,7 @@ class HyphenatedInputResolver implements ParameterResolver
         ReflectionFunctionAbstract $reflection,
         array $providedParameters,
         array $resolvedParameters
-    ) {
+    ): array {
         $parameters = [];
 
         foreach ($reflection->getParameters() as $index => $parameter) {
